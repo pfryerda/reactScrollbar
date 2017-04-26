@@ -10,7 +10,7 @@ const eventTypes = {
     touch: 'touch',
     touchEnd: 'touchEnd',
     mousemove: 'mousemove',
-    keyPress: 'keypress'
+    // keyPress: 'keypress'
 };
 
 export default class ScrollArea extends React.Component {
@@ -86,8 +86,7 @@ export default class ScrollArea extends React.Component {
     render() {
         let {children, className, contentClassName, ownerDocument} = this.props;
         let withMotion = this.props.smoothScrolling &&
-            (this.state.eventType === eventTypes.wheel || this.state.eventType === eventTypes.api || this.state.eventType === eventTypes.touchEnd ||
-            this.state.eventType === eventTypes.keyPress);
+            (this.state.eventType === eventTypes.wheel || this.state.eventType === eventTypes.api || this.state.eventType === eventTypes.touchEnd);
 
         let scrollbarY = this.canScrollY() ? (
             <ScrollBar
@@ -153,7 +152,7 @@ export default class ScrollArea extends React.Component {
                             onTouchStart={this.handleTouchStart.bind(this)}
                             onTouchMove={this.handleTouchMove.bind(this)}
                             onTouchEnd={this.handleTouchEnd.bind(this)}
-                            onKeyDown={this.handleKeyDown.bind(this)}
+                            // onKeyDown={this.handleKeyDown.bind(this)}
                             tabIndex={this.props.focusableTabIndex}
                         >
                             {children}
@@ -272,45 +271,45 @@ export default class ScrollArea extends React.Component {
         this.focusContent();
     }
 
-    handleKeyDown(e) {
-        // only handle if scroll area is in focus
-        if (e.target.tagName.toLowerCase() !== 'input') {
-            let deltaY = 0;
-            let deltaX = 0;
-            let lineHeight = this.lineHeightPx ? this.lineHeightPx : 10;
+    // handleKeyDown(e) {
+    //     // only handle if scroll area is in focus
+    //     if (e.target.tagName.toLowerCase() !== 'input') {
+    //         let deltaY = 0;
+    //         let deltaX = 0;
+    //         let lineHeight = this.lineHeightPx ? this.lineHeightPx : 10;
 
-            switch (e.keyCode) {
-                case 33: // page up
-                    deltaY = this.state.containerHeight - lineHeight;
-                    break;
-                case 34: // page down
-                    deltaY = -this.state.containerHeight + lineHeight;
-                    break;
-                case 37: // left
-                    deltaX = lineHeight;
-                    break;
-                case 38: // up
-                    deltaY = lineHeight;
-                    break;
-                case 39: // right
-                    deltaX = -lineHeight;
-                    break;
-                case 40: // down
-                    deltaY = -lineHeight;
-                    break;
-            }
+    //         switch (e.keyCode) {
+    //             case 33: // page up
+    //                 deltaY = this.state.containerHeight - lineHeight;
+    //                 break;
+    //             case 34: // page down
+    //                 deltaY = -this.state.containerHeight + lineHeight;
+    //                 break;
+    //             case 37: // left
+    //                 deltaX = lineHeight;
+    //                 break;
+    //             case 38: // up
+    //                 deltaY = lineHeight;
+    //                 break;
+    //             case 39: // right
+    //                 deltaX = -lineHeight;
+    //                 break;
+    //             case 40: // down
+    //                 deltaY = -lineHeight;
+    //                 break;
+    //         }
 
-            // only compose new state if key code matches those above
-            if (deltaY !== 0 || deltaX !== 0) {
-                let newState = this.composeNewState(deltaX, deltaY);
+    //         // only compose new state if key code matches those above
+    //         if (deltaY !== 0 || deltaX !== 0) {
+    //             let newState = this.composeNewState(deltaX, deltaY);
 
-                e.preventDefault();
-                e.stopPropagation();
+    //             e.preventDefault();
+    //             e.stopPropagation();
 
-                this.setStateFromEvent(newState, eventTypes.keyPress);
-            }
-        }
-    }
+    //             this.setStateFromEvent(newState, eventTypes.keyPress);
+    //         }
+    //     }
+    // }
 
     handleWindowResize() {
         let newState = this.computeSizes();
